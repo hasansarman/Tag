@@ -11,12 +11,8 @@
     </ol>
 @stop
 
-@section('styles')
-    {!! Theme::script('js/vendor/ckeditor/ckeditor.js') !!}
-@stop
-
 @section('content')
-    {!! Form::open(['route' => ['admin.tag.tag.update', $tag->id], 'method' => 'put']) !!}
+    {!! Form::open(['route' => ['admin.tag.tag.update', $tag->ID], 'method' => 'put']) !!}
     <div class="row">
         <div class="col-md-9">
             <div class="nav-tabs-custom">
@@ -32,7 +28,6 @@
 
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary btn-flat">{{ trans('core::core.button.update') }}</button>
-                        <button class="btn btn-default btn-flat" name="button" type="reset">{{ trans('core::core.button.reset') }}</button>
                         <a class="btn btn-danger pull-right btn-flat" href="{{ route('admin.tag.tag.index')}}"><i class="fa fa-times"></i> {{ trans('core::core.button.cancel') }}</a>
                     </div>
                 </div>
@@ -41,10 +36,10 @@
         <div class="col-md-3">
             <div class="box box-primary">
                 <div class="box-body">
-                    <div class="form-group {{ $errors->has('namespace') ? 'has-error' : '' }}">
-                        {!! Form::label('namespace', trans('tag::tags.namespace')) !!}
-                        {!! Form::select('namespace', $namespaces, old('namespace', $tag->namespace) , ['class' => 'selectize']) !!}
-                        {!! $errors->first('namespace', '<span class="help-block">:message</span>') !!}
+                    <div class="form-group {{ $errors->has('NAMESPACE') ? 'has-error' : '' }}">
+                        {!! Form::label('NAMESPACE', trans('tag::tags.namespace')) !!}
+                        {!! Form::select('NAMESPACE', $namespaces, old('NAMESPACE', $tag->NAMESPACE) , ['class' => 'selectize']) !!}
+                        {!! $errors->first('NAMESPACE', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>
             </div>
@@ -63,7 +58,7 @@
     </dl>
 @stop
 
-@section('scripts')
+@push('js-stack')
     <script type="text/javascript">
         $( document ).ready(function() {
             $('.selectize').selectize();
@@ -82,4 +77,4 @@
             });
         });
     </script>
-@stop
+@endpush

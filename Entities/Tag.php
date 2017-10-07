@@ -9,7 +9,12 @@ class Tag extends Model
 {
     use Translatable;
 
-    protected $table = 'tag__tags';
-    public $translatedAttributes = ['slug', 'name'];
-    protected $fillable = ['namespace', 'slug', 'name'];
+        	const CREATED_AT = 'IDATE';
+        	const UPDATED_AT = 'UDATE';
+    protected $table = 'tags';
+    protected $primaryKey="ID";
+    public $translatedAttributes = ['SLUG', 'NAME'];
+    protected $fillable = ['NAMESPACE', 'SLUG', 'NAME'];
+    public $translationForeignKey="TAG_ID";
+    public $localeKey="LOCALE";
 }

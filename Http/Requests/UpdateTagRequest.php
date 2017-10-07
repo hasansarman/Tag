@@ -9,15 +9,15 @@ class UpdateTagRequest extends BaseFormRequest
     public function translationRules()
     {
         return [
-            'slug' => 'required',
-            'name' => 'required',
+            'SLUG' => 'required',
+            'NAME' => 'required',
         ];
     }
 
     public function rules()
     {
         return [
-            'namespace' => 'required',
+            'NAMESPACE' => 'required',
         ];
     }
 

@@ -24,6 +24,31 @@
                 <div class="box-header">
                 </div>
                 <!-- /.box-header -->
+        <style>
+        .modal {
+          text-align: center;
+        }
+
+        @media screen and (min-width: 768px) {
+          .modal:before {
+            display: inline-block;
+            vertical-align: middle;
+            content: " ";
+            height: 100%;
+          }
+        }
+
+        .modal-dialog {
+          display: inline-block;
+          text-align: left;
+          z-index: 100;
+          vertical-align: middle;
+        }
+        .modal-backdrop {
+  z-index: 10;
+}
+        </style>
+
                 <div class="box-body">
                     <table class="data-table table table-bordered table-hover">
                         <thead>
@@ -39,24 +64,25 @@
                         <?php foreach ($tags as $tag): ?>
                         <tr>
                             <td>
-                                <a href="{{ route('admin.tag.tag.edit', [$tag->id]) }}">
-                                    {{ $tag->name }}
+                                <a href="{{ route('admin.tag.tag.edit', [$tag->ID]) }}">
+                                    {{ $tag->NAME }}
                                 </a>
                             </td>
                             <td>
-                                <a href="{{ route('admin.tag.tag.edit', [$tag->id]) }}">
-                                    {{ $tag->slug }}
+                                <a href="{{ route('admin.tag.tag.edit', [$tag->ID]) }}">
+                                    {{ $tag->SLUG }}
                                 </a>
                             </td>
                             <td>
-                                <a href="{{ route('admin.tag.tag.edit', [$tag->id]) }}">
-                                    {{ $tag->namespace }}
+                                <a href="{{ route('admin.tag.tag.edit', [$tag->ID]) }}">
+                                    {{ $tag->NAMESPACE }}
                                 </a>
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{{ route('admin.tag.tag.edit', [$tag->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
-                                    <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.tag.tag.destroy', [$tag->id]) }}"><i class="fa fa-trash"></i></button>
+                                    <a href="{{ route('admin.tag.tag.edit', [$tag->ID]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+
+                                    <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation"  data-action-target="{{ route('admin.tag.tag.destroy', $tag->ID) }}" onclick="javascript:enter_my_id({{$tag->ID}})"><i class="fa fa-trash"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -67,12 +93,20 @@
                     <!-- /.box-body -->
                 </div>
                 <!-- /.box -->
+                <script>
+                function enter_my_id(varo){
+                //alert(varo);
+                $('.modal-footer').find('form').attr('action', '{{route('admin.tag.tag.destroy','')}}'+"/"+varo);
+
+                }
+                </script>
             </div>
         </div>
     </div>
-    @include('core::partials.delete-modal')
+
 @stop
 
+  @include('core::partials.delete-modal')
 @section('footer')
     <a data-toggle="modal" data-target="#keyboardShortcutsModal"><i class="fa fa-keyboard-o"></i></a> &nbsp;
 @stop
@@ -83,7 +117,7 @@
     </dl>
 @stop
 
-@section('scripts')
+@push('js-stack')
     <script type="text/javascript">
         $( document ).ready(function() {
             $(document).keypressAction({
@@ -110,4 +144,4 @@
             });
         });
     </script>
-@stop
+@endpush

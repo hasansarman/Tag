@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class TagTranslation extends Model
 {
     public $timestamps = false;
-    protected $fillable = ['slug', 'name'];
-    protected $table = 'tag__tag_translations';
+    protected $primaryKey="ID";
+    public $translationForeignKey="TAG_ID";
+    public $localeKey="LOCALE";
+    protected $fillable = ['SLUG', 'NAME'];
+    protected $table = 'tag_translations';
 }

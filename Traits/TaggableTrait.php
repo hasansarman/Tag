@@ -31,7 +31,7 @@ trait TaggableTrait
     /**
      * {@inheritdoc}
      */
-    public function scopeWhereTag(Builder $query, $tags, $type = 'slug')
+    public function scopeWhereTag(Builder $query, $tags, $type = 'SLUG')
     {
         if (is_string($tags) === true) {
             $tags = [$tags];
@@ -52,7 +52,7 @@ trait TaggableTrait
     /**
      * {@inheritdoc}
      */
-    public function scopeWithTag(Builder $query, $tags, $type = 'slug')
+    public function scopeWithTag(Builder $query, $tags, $type = 'SLUG')
     {
         if (is_string($tags) === true) {
             $tags = [$tags];
@@ -71,7 +71,7 @@ trait TaggableTrait
      */
     public function tags()
     {
-        return $this->morphToMany(static::$tagsModel, 'taggable', 'tag__tagged', 'taggable_id', 'tag_id');
+        return $this->morphToMany(static::$tagsModel, 'taggable', 'tag_tagged', 'TAGGABLE_ID', 'TAG_ID');
     }
 
     /**
@@ -95,7 +95,7 @@ trait TaggableTrait
     /**
      * {@inheritdoc}
      */
-    public function setTags($tags, $type = 'slug')
+    public function setTags($tags, $type = 'SLUG')
     {
         // Get the current entity tags
         $entityTags = $this->tags->pluck($type)->all();
@@ -134,18 +134,18 @@ trait TaggableTrait
      */
     public function addTag($name)
     {
-        $tag = $this->createTagsModel()->where('namespace', $this->getEntityClassName())
+        $tag = $this->createTagsModel()->where('NAMESPACE', $this->getEntityClassName())
             ->with('translations')
             ->whereHas('translations', function (Builder $q) use ($name) {
-            $q->where('slug', $this->generateTagSlug($name));
-        })->first();
+                $q->where('SLUG', $this->generateTagSlug($name));
+            })->first();
 
         if ($tag === null) {
             $tag = new Tag([
-                'namespace' => $this->getEntityClassName(),
-                locale() => [
-                    'slug' => $this->generateTagSlug($name),
-                    'name' => $name,
+                'NAMESPACE' => $this->getEntityClassName(),
+                app()->getLocale() => [
+                    'SLUG' => $this->generateTagSlug($name),
+                    'NAME' => $name,
                 ],
             ]);
         }
@@ -163,7 +163,7 @@ trait TaggableTrait
      */
     public function untag($tags = null)
     {
-        $tags = $tags ?: $this->tags->pluck('name')->all();
+        $tags = $tags ?: $this->tags->pluck('NAME')->all();
 
         foreach ($tags as $tag) {
             $this->removeTag($tag);
@@ -178,11 +178,10 @@ trait TaggableTrait
     public function removeTag($name)
     {
         $tag = $this->createTagsModel()
-            ->where('namespace', $this->getEntityClassName())
+            ->where('NAMESPACE', $this->getEntityClassName())
             ->with('translations')
             ->whereHas('translations', function (Builder $q) use ($name) {
-                $q->orWhere('name', $this->generateTagSlug($name));
-                $q->orWhere('slug', $this->generateTagSlug($name));
+                $q->where('SLUG', $this->generateTagSlug($name));
             })->first();
 
         if ($tag) {

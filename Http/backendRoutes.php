@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Routing\Router;
-
 /** @var Router $router */
-$router->group(['prefix' => 'tag'], function (Router $router) {
+$router->group(['prefix' => '/tag'], function (Router $router) {
     $router->bind('tag__tag', function ($id) {
         return app(\Modules\Tag\Repositories\TagRepository::class)->find($id);
     });
@@ -35,6 +34,6 @@ $router->group(['prefix' => 'tag'], function (Router $router) {
     $router->delete('tags/{tag__tag}', [
         'as' => 'admin.tag.tag.destroy',
         'uses' => 'TagController@destroy',
-        'middleware' => 'can:tag.tags.destroy',
+      //  'middleware' => 'can:tag.tags.destroy',
     ]);
 });

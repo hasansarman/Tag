@@ -105,7 +105,7 @@ class TagController extends AdminBaseController
         $this->tag->destroy($tag);
 
         return redirect()->route('admin.tag.tag.index')
-            ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('tag::tags.tags')]));
+            ->withSuccess(trans('core::core.messages.resource deleted', ['NAME' => trans('tag::tags.tags')]));
     }
 
     private function formatNamespaces(array $namespaces)
